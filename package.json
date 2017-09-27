@@ -1,0 +1,27 @@
+{
+  "name": "curso-profesional-real-time-back-end-octubre-2017",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.15.5",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": { },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webtrainingmx/curso-profesional-real-time-back-end-octubre-2017.git"
+  },
+  "keywords": [ ],
+  "author": "Alex Arriaga <alex.arriaga@webtraining.mx>",
+  "license": "UNLICENSED",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/webtrainingmx/curso-profesional-real-time-back-end-octubre-2017/issues"
+  },
+  "homepage": "https://github.com/webtrainingmx/curso-profesional-real-time-back-end-octubre-2017#readme"
+}
