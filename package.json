@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.15.5",
+    "lodash": "^4.17.4",
+    "morgan": "^1.9.0",
     "socket.io": "^2.0.3"
   },
-  "devDependencies": { },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
@@ -16,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/webtrainingmx/curso-profesional-real-time-back-end-octubre-2017.git"
   },
-  "keywords": [ ],
+  "keywords": [],
   "author": "Alex Arriaga <alex.arriaga@webtraining.mx>",
   "license": "UNLICENSED",
   "private": true,
