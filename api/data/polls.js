@@ -24,9 +24,9 @@ const data =
 					"label": "Vue"
 				},
 				{
-					"id": 3,
+					"id": 4,
 					"question_id": 1,
-					"label": "Vue"
+					"label": "Ember.js"
 				}
 			],
 			"votes": [

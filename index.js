@@ -10,6 +10,7 @@ const io = require( 'socket.io' )( server );
 const port = process.env.PORT || 3300;
 
 const pollsRouter = require( './api/routers/polls-router' );
+const allowCrossDomain = require('./api/middlewares/cors.middleware');
 
 // 1. Morgan middleware for logging
 app.use( morgan( 'dev' ) );
@@ -21,14 +22,6 @@ app.get( '/', ( req, res ) => {
 
 // 3. Enable CORS on ExpressJS to avoid cross-origin errors when calling this server using AJAX
 // We are authorizing all domains to be able to manage information via AJAX (this is just for development)
-function allowCrossDomain( req, res, next ) {
-	// Instead of "*" you could only specific origins
-	res.header( 'Access-Control-Allow-Origin', '*' );
-	// Supported HTTP verbs
-	res.header( 'Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE' );
-	res.header( 'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Api-Token' );
-	next();
-}
 
 app.use( allowCrossDomain );
 
