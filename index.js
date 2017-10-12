@@ -34,7 +34,41 @@ app.use( bodyParser.json() );
 // 5. Express router for polls
 app.use( '/polls', pollsRouter );
 
-// 6. Run the server
+// 6. Socket.io configuration
+io.on( 'connection', ( socket ) => {
+
+	console.log( 'User connected' );
+
+	socket.on( 'new-message', ( data ) => {
+		console.log( "Message has been received!", data );
+
+		io.emit( 'message-received', {
+			username: socket.username,
+			message: data,
+			text: data
+		} );
+	} );
+
+	socket.on( 'new-vote', ( data ) => {
+
+		console.log( "Vote has been received!", data );
+
+		// Here we should send the VOTE instead of the ANSWER
+		io.emit( 'vote-received', {
+			data: data
+		} );
+	} );
+
+	socket.on( 'disconnect', () => {
+		console.log( 'user-disconnected' );
+
+		socket.emit( 'user-disconnected', () => {
+
+		} );
+	} );
+} );
+
+// 7. Run the server
 server.listen( port, () => {
 	console.log( 'Servidor activo en puerto: %d', port );
 } );
