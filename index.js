@@ -21,18 +21,23 @@ app.get( '/', ( req, res ) => {
 
 // 3. Enable CORS on ExpressJS to avoid cross-origin errors when calling this server using AJAX
 // We are authorizing all domains to be able to manage information via AJAX (this is just for development)
-app.use( ( req, res, next ) => {
-	res.header( "Access-Control-Allow-Origin", "*" );
-	res.header( "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept" );
+function allowCrossDomain( req, res, next ) {
+	// Instead of "*" you could only specific origins
+	res.header( 'Access-Control-Allow-Origin', '*' );
+	// Supported HTTP verbs
+	res.header( 'Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE' );
+	res.header( 'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Api-Token' );
 	next();
-} );
+}
+
+app.use( allowCrossDomain );
 
 // 4. Body parser middleware to auto-parse request body to JSON
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
 
 // 5. Express router for polls
-app.use( '/polls', pollsRouter );
+app.use( '/api/v1/polls', pollsRouter );
 
 // 6. Socket.io configuration
 io.on( 'connection', ( socket ) => {
