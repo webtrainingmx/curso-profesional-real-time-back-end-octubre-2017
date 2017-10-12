@@ -1,10 +1,9 @@
 const pollsRouter = require( 'express' ).Router();
-const polls = require( './../data/polls' );
-const _ = require( 'lodash' );
+const pollService = require( './../services/polls-dummy.service' );
 
 // GET all polls
 pollsRouter.get( '/', ( request, response ) => {
-	response.json( polls );
+	response.json( pollService.getAll() );
 } );
 
 
@@ -12,15 +11,18 @@ pollsRouter.get( '/', ( request, response ) => {
 pollsRouter.post( '/', ( request, response ) => {
 	const poll = request.body;
 	console.log( "Body", poll );
-	polls.push( poll );
+	const createdPoll = pollService.save( poll );
 
-	response.json( poll );
+	if ( ! createdPoll ) response.json( { "error": "Poll was not created!" } );
+
+	response.status( 201 ).json( createdPoll );
 } );
 
-pollsRouter.param( 'id', function( request, response, next, id ) {
+pollsRouter.param( 'id', function( request, response, next, id = null ) {
 	console.log( "ID in params: ", id );
-	const poll = _.find( polls, { id: parseInt( id, 10 ) } );
-	// console.log( "Poll found:", poll );
+	const idToFind = parseInt( id, 10 );
+	const poll = pollService.getById( idToFind );
+
 	if ( poll ) {
 		request.poll = poll;
 		next();
@@ -32,40 +34,31 @@ pollsRouter.param( 'id', function( request, response, next, id ) {
 
 pollsRouter.get( '/:id', function( req, res ) {
 	const poll = req.poll;
-	res.json( poll || {} );
+	res.json( poll || { "error": "Poll not found" } );
 } );
 
 pollsRouter.put( '/:id', ( request, response ) => {
 	const pollToUpdate = request.body;
+	const updatedPoll = pollService.update( pollToUpdate );
 
-	if ( pollToUpdate.id ) {
-		delete pollToUpdate.id;
-	}
-
-	const pollIndex = _.findIndex( polls, { id: + request.params.id } );
-
-	if ( ! polls[ pollIndex ] ) {
+	if ( ! updatedPoll ) {
 		response.json( {
 			error: "Error when looking for ID " + request.params.id
 		} );
 	} else {
-		const updatedPoll = _.assign( polls[ pollIndex ], pollToUpdate );
 		response.json( updatedPoll );
 	}
 } );
 
 pollsRouter.delete( '/:id', ( request, response ) => {
-	const pollIndex = _.findIndex( polls, { id: +request.params.id } );
+	const pollToDelete = request.body;
+	const deletedPoll = pollService.delete( pollToDelete );
 
-	if ( ! polls[ pollIndex ] ) {
+	if ( ! deletedPoll ) {
 		response.json( {
 			error: "Error when looking for ID " + request.params.id
 		} );
 	} else {
-		const deletedPoll = polls[ pollIndex ];
-
-		polls.splice( pollIndex, 1 );
-
 		response.json( deletedPoll );
 	}
 } );

@@ -1,44 +1,62 @@
-const pollsRouter = require( 'express' ).Router();
-const polls = require( './../data/polls' );
+const preloadedPolls = require( './../data/polls' );
 const _ = require( 'lodash' );
 
-const pollsDummyService = {
-	_instance: null,
-	init: () => {
-		this._instance = {
-			polls: polls
-		};
-	},
-	getInstance: () => {
-		if ( ! this._instance ) this.init();
-		return this._instance;
-	},
-	save: ( poll ) => {
-		this._instance.polls.push( poll );
-	},
-	getById: ( id ) => {
-		const poll = _.find( polls, { id: parseInt( id, 10 ) } );
-		return poll ? poll : false;
-	},
-	update: ( poll ) => {
-		const pollIndex = _.findIndex( polls, { id: poll.id } );
+let instance = null;
 
-		if ( ! this._instance.polls[ pollIndex ] ) {
+class PollsDummyService {
+	constructor() {
+		if ( ! instance ) this.init();
+		return instance;
+	}
+
+	init() {
+		instance = this;
+		this.polls = preloadedPolls;
+	}
+
+	save( poll ) {
+		this.polls.push( poll );
+		return poll;
+	}
+
+	getAll() {
+		return this.polls;
+	}
+
+	getById( id ) {
+		const poll = _.find( this.polls, { id: parseInt( id, 10 ) } );
+		return poll ? poll : false;
+	}
+
+	update( poll ) {
+		const pollIndex = _.findIndex( this.polls, { id: poll.id } );
+
+		if ( ! this.polls[ pollIndex ] ) {
 			return false;
 		} else {
-			return _.assign( this._instance.polls[ pollIndex ], poll );
+			return _.assign( this.polls[ pollIndex ], poll );
 		}
-	},
-	delete: ( poll ) => {
-		const pollIndex = _.findIndex( this._instance.polls, { id: poll.id } );
-		if ( ! this._instance.polls[ pollIndex ] ) {
+	}
+
+	delete( poll ) {
+		const pollIndex = _.findIndex( this.polls, { id: poll.id } );
+		if ( ! this.polls[ pollIndex ] ) {
 			return false;
 		} else {
-			const deletedPoll = this._instance.polls[ pollIndex ];
-			this._instance.polls.splice( pollIndex, 1 );
+			const deletedPoll = this.polls[ pollIndex ];
+			this.polls.splice( pollIndex, 1 );
 			return deletedPoll;
 		}
 	}
-};
+}
 
-module.exports = pollsDummyService;
+// let x = new PollsDummyService();
+// let y = new PollsDummyService();
+//
+// x.save({a: 1});
+// y.save({b: 2});
+//
+// console.log(x.getAll());
+// console.log(y.getAll());
+
+module.exports = new PollsDummyService();
