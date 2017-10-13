@@ -1,9 +1,9 @@
 const pollsRouter = require( 'express' ).Router();
-const pollService = require( './../services/polls-dummy.service' );
+const pollsService = require( './../services/polls-dummy.service' );
 
 // GET all polls
 pollsRouter.get( '/', ( request, response ) => {
-	response.json( pollService.getAll() );
+	response.json( pollsService.getAll() );
 } );
 
 
@@ -11,7 +11,7 @@ pollsRouter.get( '/', ( request, response ) => {
 pollsRouter.post( '/', ( request, response ) => {
 	const poll = request.body;
 	console.log( "Body", poll );
-	const createdPoll = pollService.save( poll );
+	const createdPoll = pollsService.save( poll );
 
 	if ( ! createdPoll ) response.json( { "error": "Poll was not created!" } );
 
@@ -21,7 +21,7 @@ pollsRouter.post( '/', ( request, response ) => {
 pollsRouter.param( 'id', function( request, response, next, id = null ) {
 	console.log( "ID in params: ", id );
 	const idToFind = parseInt( id, 10 );
-	const poll = pollService.getById( idToFind );
+	const poll = pollsService.getById( idToFind );
 
 	if ( poll ) {
 		request.poll = poll;
@@ -39,7 +39,7 @@ pollsRouter.get( '/:id', function( req, res ) {
 
 pollsRouter.put( '/:id', ( request, response ) => {
 	const pollToUpdate = request.body;
-	const updatedPoll = pollService.update( pollToUpdate );
+	const updatedPoll = pollsService.update( pollToUpdate );
 
 	if ( ! updatedPoll ) {
 		response.json( {
@@ -52,7 +52,7 @@ pollsRouter.put( '/:id', ( request, response ) => {
 
 pollsRouter.delete( '/:id', ( request, response ) => {
 	const pollToDelete = request.body;
-	const deletedPoll = pollService.delete( pollToDelete );
+	const deletedPoll = pollsService.delete( pollToDelete );
 
 	if ( ! deletedPoll ) {
 		response.json( {

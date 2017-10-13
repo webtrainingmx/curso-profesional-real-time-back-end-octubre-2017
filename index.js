@@ -10,7 +10,9 @@ const io = require( 'socket.io' )( server );
 const port = process.env.PORT || 3300;
 
 const pollsRouter = require( './api/routers/polls-router' );
-const allowCrossDomain = require('./api/middlewares/cors.middleware');
+const allowCrossDomain = require( './api/middlewares/cors.middleware' );
+
+const pollsService = require( './api/services/polls-dummy.service' );
 
 // 1. Morgan middleware for logging
 app.use( morgan( 'dev' ) );
@@ -47,13 +49,18 @@ io.on( 'connection', ( socket ) => {
 		} );
 	} );
 
-	socket.on( 'new-vote', ( data ) => {
+	socket.on( 'new-vote', ( answer ) => {
 
-		console.log( "Vote has been received!", data );
+		console.log( "Answer has been received!", answer );
 
-		// Here we should send the VOTE instead of the ANSWER
+		// Save vote
+		const vote = pollsService.transformAnswerToVote( answer );
+		pollsService.saveVoteToPoll( vote );
+		const poll = pollsService.getById( vote.poll_id );
+
+		// Here we send the poll with new votes
 		io.emit( 'vote-received', {
-			data: data
+			poll: poll
 		} );
 	} );
 

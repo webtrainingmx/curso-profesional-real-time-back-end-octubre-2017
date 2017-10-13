@@ -11,21 +11,25 @@ const data =
 				{
 					"id": 1,
 					"question_id": 1,
+					"poll_id": 1,
 					"label": "Angular"
 				},
 				{
 					"id": 2,
 					"question_id": 1,
+					"poll_id": 1,
 					"label": "React"
 				},
 				{
 					"id": 3,
 					"question_id": 1,
+					"poll_id": 1,
 					"label": "Vue"
 				},
 				{
 					"id": 4,
 					"question_id": 1,
+					"poll_id": 1,
 					"label": "Ember.js"
 				}
 			],

@@ -19,6 +19,27 @@ class PollsDummyService {
 		return poll;
 	}
 
+	transformAnswerToVote( answer ) {
+
+		console.log(answer);
+		// Find the poll
+		const poll = _.find( this.polls, { id: parseInt( answer.poll_id, 10 ) } );
+
+		return {
+			id: poll.votes.length + 1,
+			user_id: answer.user_id,
+			answer_id: answer.id,
+			question_id: answer.question_id,
+			poll_id: answer.poll_id
+		};
+	}
+
+	saveVoteToPoll( vote ) {
+		const poll = _.find( this.polls, { id: parseInt( vote.poll_id, 10 ) } );
+		poll.votes.push( vote );
+	}
+
+
 	getAll() {
 		return this.polls;
 	}
