@@ -130,6 +130,53 @@ const data =
 				}
 			],
 			"votes": []
+		},
+		{
+			"id": 13,
+			"question": {
+				"id": 14,
+				"poll_id": 13,
+				"label": "¿Cuál es tu lenguaje del lado del servidor favorito?"
+			},
+			"answers": [
+				{
+					"id": 41,
+					"question_id": 14,
+					"poll_id": 13,
+					"label": "Java"
+				}, {
+					"id": 42,
+					"question_id": 14,
+					"poll_id": 13,
+					"label": "JavaScript"
+				}, {
+					"id": 43,
+					"question_id": 14,
+					"poll_id": 13,
+					"label": "PHP"
+				}, {
+					"id": 44,
+					"question_id": 14,
+					"poll_id": 13,
+					"label": "C#"
+				}, {
+					"id": 45,
+					"question_id": 14,
+					"poll_id": 13,
+					"label": "Python"
+				}, {
+					"id": 46,
+					"question_id": 14,
+					"poll_id": 13,
+					"label": "Groovy"
+				}, {
+					"id": 47,
+					"question_id": 14,
+					"poll_id": 13,
+					"label": "Scala"
+				}
+			],
+			"votes": []
 		}
 	];
 
