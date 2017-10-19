@@ -4,8 +4,8 @@ const pollsMySQLService = require( './../services/polls-sql.service' );
 
 // GET all polls
 pollsRouter.get( '/', ( request, response ) => {
-	pollsMySQLService.getAll().then( ( data ) => {
-		response.json( data );
+	pollsMySQLService.getAll().then( ( polls ) => {
+		response.json( polls );
 	}, ( error ) => {
 		response.json( error );
 	} );
@@ -26,14 +26,12 @@ pollsRouter.post( '/', ( request, response ) => {
 pollsRouter.param( 'id', function( request, response, next, id = null ) {
 	console.log( "ID in params: ", id );
 	const idToFind = parseInt( id, 10 );
-	const poll = pollsService.getById( idToFind );
-
-	if ( poll ) {
+	pollsMySQLService.getById( idToFind ).then( ( poll ) => {
 		request.poll = poll;
 		next();
-	} else {
+	}, () => {
 		response.json( { "error": "ID not found" } );
-	}
+	} );
 } );
 
 

@@ -84,11 +84,14 @@ class SequelizeService {
 
 
 	defineAssociations() {
-		const Question = this.getModelByName( 'question' );
 		const Poll = this.getModelByName( 'poll' );
+		const Question = this.getModelByName( 'question' );
+		const Answer = this.getModelByName( 'answer' );
+		const Vote = this.getModelByName( 'vote' );
 
-		// Question.belongsTo( Poll );
 		Poll.hasOne( Question );
+		Poll.hasMany( Answer );
+		Poll.hasMany( Vote );
 	}
 
 	getModelByName( modelName ) {
