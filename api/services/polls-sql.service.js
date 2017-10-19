@@ -4,7 +4,15 @@ const pollsService = {
 	getAll: function() {
 
 		const Poll = sqlService.getModelByName( 'poll' );
-		return Poll.findAll();
+
+		const Question = sqlService.getModelByName( 'question' );
+
+		return Poll.findAll( {
+			include: [ {
+				model: Question,
+				as: 'question',
+			} ],
+		} );//.on('sql', console.log);
 	},
 
 	testConnection: function() {

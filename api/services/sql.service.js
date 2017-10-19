@@ -73,14 +73,22 @@ class SequelizeService {
 
 	init() {
 		this.defineModels();
+		this.defineAssociations();
 	}
 
 	defineModels() {
-
 		for ( const model in MODELS ) {
-			this.sequelize.define( model, MODELS[ model ], { timestamps: false } );
+			this.sequelize.define( model, MODELS[ model ], { timestamps: false, underscored: true } );
 		}
+	}
 
+
+	defineAssociations() {
+		const Question = this.getModelByName( 'question' );
+		const Poll = this.getModelByName( 'poll' );
+
+		// Question.belongsTo( Poll );
+		Poll.hasOne( Question );
 	}
 
 	getModelByName( modelName ) {
