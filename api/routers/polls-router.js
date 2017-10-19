@@ -1,9 +1,14 @@
 const pollsRouter = require( 'express' ).Router();
 const pollsService = require( './../services/polls-dummy.service' );
+const pollsMySQLService = require( './../services/polls-sql.service' );
 
 // GET all polls
 pollsRouter.get( '/', ( request, response ) => {
-	response.json( pollsService.getAll() );
+	pollsMySQLService.getAll().then( ( data ) => {
+		response.json( data );
+	}, ( error ) => {
+		response.json( error );
+	} );
 } );
 
 
